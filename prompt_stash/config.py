@@ -1,5 +1,5 @@
 """
-PromptVault configuration — ~/.prompt_archive/ management.
+PromptVault configuration — ~/.prompt_stash/ management.
 
 Handles first-run initialisation, config.toml reading, and path resolution.
 """
@@ -9,10 +9,10 @@ import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
-_DEFAULT_VAULT_DIR = Path.home() / ".prompt_archive"
+_DEFAULT_VAULT_DIR = Path.home() / ".prompt_stash"
 _CONFIG_TEMPLATE = """\
 # PromptVault configuration
-# See: https://github.com/yourname/prompt_archive
+# See: https://github.com/yourname/prompt_stash
 
 [vault]
 default_model = "claude"
@@ -58,7 +58,7 @@ class VaultConfig:
         """Write current configuration back to config.toml."""
         content = f"""\
 # PromptVault configuration
-# See: https://github.com/yourname/prompt_archive
+# See: https://github.com/yourname/prompt_stash
 
 [vault]
 default_model = "{self.default_model}"

@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "prompt-archive"
+name = "prompt-stash"
 version = "1.0.0"
-description = "Version-controlled prompt archive for AI power users"
+description = "Version-controlled prompt stash for AI power users"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
@@ -38,13 +38,13 @@ dev = [
 ]
 
 [project.scripts]
-arc = "prompt_archive.cli:main"
-vault = "prompt_archive.cli:main"
+stash = "prompt_stash.cli:main"
+vault = "prompt_stash.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/Venkatesh-6921/Prompt-Archive"
-Repository = "https://github.com/Venkatesh-6921/Prompt-Archive"
-"Bug Tracker" = "https://github.com/Venkatesh-6921/Prompt-Archive/issues"
+Homepage = "https://github.com/Venkatesh-6921/Prompt-Stash"
+Repository = "https://github.com/Venkatesh-6921/Prompt-Stash"
+"Bug Tracker" = "https://github.com/Venkatesh-6921/Prompt-Stash/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["prompt_archive"]
+packages = ["prompt_stash"]

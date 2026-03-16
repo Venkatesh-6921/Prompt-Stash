@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from prompt_archive.storage import PromptStorage
+from prompt_stash.storage import PromptStorage
 
 
 @pytest.fixture

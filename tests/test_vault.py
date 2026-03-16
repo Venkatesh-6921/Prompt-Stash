@@ -5,13 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from prompt_archive.config import VaultConfig
-from prompt_archive.vault import PromptVault
+from prompt_stash.config import VaultConfig
+from prompt_stash.vault import PromptVault
 
 
 @pytest.fixture
 def vault(tmp_path: Path) -> PromptVault:
-    config = VaultConfig(vault_dir=tmp_path / ".prompt_archive")
+    config = VaultConfig(vault_dir=tmp_path / ".prompt_stash")
     config._ensure_dirs()
     config._ensure_git()
     return PromptVault(config)

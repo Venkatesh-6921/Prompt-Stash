@@ -11,10 +11,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from prompt_archive.config import VaultConfig
-from prompt_archive.database import PromptRecord, VaultDatabase
-from prompt_archive.storage import PromptStorage
-from prompt_archive.utils.fuzzy import fuzzy_find
+from prompt_stash.config import VaultConfig
+from prompt_stash.database import PromptRecord, VaultDatabase
+from prompt_stash.storage import PromptStorage
+from prompt_stash.utils.fuzzy import fuzzy_find
 
 
 class PromptVault:
