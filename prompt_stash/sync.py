@@ -33,17 +33,25 @@ class VaultSync:
             self._ensure_remote()
             origin = self.repo.remote("origin")
             
-            # Use main as default branch, set upstream if it's the first push
-            # This fixes the 'no upstream branch' error
-            origin.push(refspec="main:main", set_upstream=True)
+            # origin.push() returns a list of PushInfo objects. 
+            # We must inspect them to see if the push actually succeeded.
+            push_results = origin.push(refspec="main:main", set_upstream=True)
+            
+            for info in push_results:
+                # Flags like Error, Rejected, RemoteRejected indicate failure
+                # 1024 is the bit for 'ERROR' in GitPython PushInfo flags
+                if info.flags & info.ERROR or info.flags & info.REJECTED or info.flags & info.REMOTE_REJECTED:
+                    console.print(f"  [red]✗[/red]  Push failed for {info.remote_ref_string}: {info.summary}")
+                    return False
+            
             return True
         except Exception as e:
             err_msg = str(e)
             if "does not appear to be a git repository" in err_msg or "Could not read from remote" in err_msg:
                 console.print(f"  [red]✗[/red]  [bold]Invalid Repository URL:[/bold] '{self.github_repo}'")
-                console.print("      Please ensure the URL is a genuine GitHub Git URL.")
+                console.print("      Please ensure the URL is a genuine GitHub Git URL (ending in .git).")
             else:
-                console.print(f"  [red]✗[/red]  Push failed: {e}")
+                console.print(f"  [red]✗[/red]  Internal Error during push: {e}")
             return False
 
     # ── pull ──────────────────────────────────────────────────────

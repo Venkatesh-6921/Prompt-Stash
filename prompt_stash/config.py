@@ -69,8 +69,13 @@ repo = "{self.github_repo}"
         self.config_path.write_text(content, encoding="utf-8")
 
     def set_github_repo(self, url: str) -> None:
-        """Update the GitHub repo URL and save to disk."""
-        self.github_repo = url
+        """Update the GitHub repo URL (stripping whitespace/typos) and save."""
+        # Strip trailing dashes, spaces, or dots that users often accidentally paste
+        clean_url = url.strip().rstrip("-").rstrip(".")
+        if not clean_url.endswith(".git") and "github.com" in clean_url:
+            clean_url += ".git"
+            
+        self.github_repo = clean_url
         self.save_config()
 
     # ── private helpers ───────────────────────────────────────────
