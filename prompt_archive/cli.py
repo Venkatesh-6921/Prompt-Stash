@@ -1,11 +1,11 @@
 """
-PromptVault CLI v2 — Gemini CLI-style terminal experience.
+Prompt Archive CLI — Gemini CLI-style terminal experience.
 """
 from __future__ import annotations
 
 import click
-from promptvault import __version__
-from promptvault.utils.display import (
+from prompt_archive import __version__
+from prompt_archive.utils.display import (
     console,
     print_logo,
     print_tips,
@@ -23,8 +23,8 @@ from promptvault.utils.display import (
 
 
 def _get_vault():
-    from promptvault.config import VaultConfig
-    from promptvault.vault import PromptVault
+    from prompt_archive.config import VaultConfig
+    from prompt_archive.vault import PromptVault
     config = VaultConfig.load()
     return PromptVault(config), config
 
@@ -32,20 +32,20 @@ def _get_vault():
 # ── Root group ────────────────────────────────────────────────────────────────
 
 @click.group(invoke_without_command=True)
-@click.version_option(version=__version__, prog_name="PromptVault")
+@click.version_option(version=__version__, prog_name="Prompt Archive")
 @click.pass_context
 def cli(ctx: click.Context) -> None:
     """\b
-    PromptVault — Git-backed, searchable prompt library in your terminal.
+    Prompt Archive — Git-backed, searchable prompt library in your terminal.
 
     \b
     Commands:
-      vault save       Save a new prompt
-      vault use        Copy a prompt to clipboard
-      vault search     Search prompts by name, tag, or content
-      vault list       Browse all prompts
-      vault log        Version history for a prompt
-      vault push       Back up vault to GitHub
+      arc save       Save a new prompt
+      arc use        Copy a prompt to clipboard
+      arc search     Search prompts by name, tag, or content
+      arc list       Browse all prompts
+      arc log        Version history for a prompt
+      arc push       Back up archive to GitHub
     """
     if ctx.invoked_subcommand is None:
         print_logo()
@@ -63,7 +63,7 @@ def cli(ctx: click.Context) -> None:
 def save(name: str, tags: str, model: str, description: str) -> None:
     """Save a new prompt (opens your editor)."""
     vault, config = _get_vault()
-    print_command_header("vault save", f"Creating prompt: {name}")
+    print_command_header("arc save", f"Creating prompt: {name}")
     tag_list = [t.strip() for t in tags.split(",") if t.strip()]
 
     content = click.edit("", extension=".md")
@@ -71,12 +71,12 @@ def save(name: str, tags: str, model: str, description: str) -> None:
         step_warn("No content entered — prompt not saved.")
         return
 
-    from promptvault.vault import PromptVault
+    from prompt_archive.vault import PromptVault
     result = vault.save(name=name, content=content.strip(), tags=tag_list,
                         model=model, description=description)
     console.print()
     step_ok(f"Saved  [bold]{name}[/bold]", f"v{result.get('version', 1)}")
-    step_info("Run  vault use " + name + "  to copy to clipboard.")
+    step_info("Run  arc use " + name + "  to copy to clipboard.")
     console.print()
 
 
@@ -89,17 +89,17 @@ def save(name: str, tags: str, model: str, description: str) -> None:
 def use(name: str, print_only: bool) -> None:
     """Copy a prompt to clipboard — ready to paste into any AI."""
     vault, _ = _get_vault()
-    print_command_header("vault use", f"Fetching: {name}")
+    print_command_header("arc use", f"Fetching: {name}")
 
     prompt = vault.get(name)
     if not prompt:
-        step_error(f"Prompt '{name}' not found.", "Run  vault list  to see all prompts.")
+        step_error(f"Prompt '{name}' not found.", "Run  arc list  to see all prompts.")
         return
 
     if print_only:
         console.print(prompt["content"])
     else:
-        from promptvault.utils.clipboard import copy_to_clipboard
+        from prompt_archive.utils.clipboard import copy_to_clipboard
         copy_to_clipboard(prompt["content"])
         step_ok(f"Copied  [bold]{name}[/bold]  to clipboard!")
 
@@ -116,7 +116,7 @@ def search(query: tuple, tag: str | None) -> None:
     """Search prompts by name, tag, or content."""
     vault, _ = _get_vault()
     search_str = " ".join(query)
-    print_command_header("vault search", f"Query: {search_str}" + (f"  tag: {tag}" if tag else ""))
+    print_command_header("arc search", f"Query: {search_str}" + (f"  tag: {tag}" if tag else ""))
 
     results = vault.search(query=search_str, tag=tag)
     if not results:
@@ -125,7 +125,7 @@ def search(query: tuple, tag: str | None) -> None:
 
     console.print(make_prompt_list_table(results))
     console.print()
-    console.print(f"  [dim]{len(results)} result(s)  —  run[/dim]  [cyan]vault use <name>[/cyan]  [dim]to copy one.[/dim]")
+    console.print(f"  [dim]{len(results)} result(s)  —  run[/dim]  [cyan]arc use <name>[/cyan]  [dim]to copy one.[/dim]")
     console.print()
 
 
@@ -137,11 +137,11 @@ def search(query: tuple, tag: str | None) -> None:
 def list_prompts(tag: str | None, model: str | None) -> None:
     """Browse all saved prompts."""
     vault, _ = _get_vault()
-    print_command_header("vault list", "All prompts" + (f"  tag: {tag}" if tag else ""))
+    print_command_header("arc list", "All prompts" + (f"  tag: {tag}" if tag else ""))
 
     prompts = vault.list(tag=tag, model=model)
     if not prompts:
-        step_warn("No prompts saved yet.", "Run  vault save \"name\"  to create your first.")
+        step_warn("No prompts saved yet.", "Run  arc save \"name\"  to create your first.")
         return
 
     console.print(make_prompt_list_table(prompts))
@@ -157,9 +157,9 @@ def list_prompts(tag: str | None, model: str | None) -> None:
 def log(name: str) -> None:
     """Show version history for a prompt."""
     vault, _ = _get_vault()
-    print_command_header("vault log", f"Version history: {name}")
+    print_command_header("arc log", f"Version history: {name}")
 
-    from promptvault.versioning import PromptVersioning
+    from prompt_archive.versioning import PromptVersioning
     v = PromptVersioning(vault.config)
     entries = v.log(name)
     if not entries:
@@ -179,8 +179,8 @@ def diff(name: str, v_from: str | None, v_to: str | None) -> None:
     """Show diff between two versions of a prompt."""
     vault, _ = _get_vault()
     label = f"v{v_from} → v{v_to}" if v_from and v_to else "previous → current"
-    print_command_header("vault diff", f"{name}  ·  {label}")
-    from promptvault.versioning import PromptVersioning
+    print_command_header("arc diff", f"{name}  ·  {label}")
+    from prompt_archive.versioning import PromptVersioning
     v = PromptVersioning(vault.config)
     v.diff(name, v_from, v_to)
     console.print()
@@ -194,11 +194,11 @@ def diff(name: str, v_from: str | None, v_to: str | None) -> None:
 def rollback(name: str, version: int) -> None:
     """Roll back a prompt to a previous version."""
     vault, _ = _get_vault()
-    print_command_header("vault rollback", f"{name}  →  v{version}")
+    print_command_header("arc rollback", f"{name}  →  v{version}")
     if not click.confirm(f"  Roll back '{name}' to v{version}?"):
         step_warn("Cancelled.")
         return
-    from promptvault.versioning import PromptVersioning
+    from prompt_archive.versioning import PromptVersioning
     v = PromptVersioning(vault.config)
     v.rollback(name, version)
     step_ok(f"Rolled back  [bold]{name}[/bold]  to v{version}.")
@@ -211,7 +211,7 @@ def rollback(name: str, version: int) -> None:
 def push() -> None:
     """Push vault to GitHub."""
     vault, config = _get_vault()
-    print_command_header("vault push", "Syncing to GitHub...")
+    print_command_header("arc push", "Syncing to GitHub...")
     
     if not config.github_repo:
         step_warn("No GitHub repo configured.")
@@ -223,7 +223,7 @@ def push() -> None:
             step_error("GitHub repo is required for push.")
             return
 
-    from promptvault.sync import VaultSync
+    from prompt_archive.sync import VaultSync
     success = VaultSync(config).push()
     if success:
         step_ok("Pushed!", config.github_repo)
@@ -232,7 +232,7 @@ def push() -> None:
             repo_url = click.prompt("  ?  Enter GitHub repository URL")
             if repo_url:
                 config.set_github_repo(repo_url)
-                step_ok("New GitHub repo saved. Run 'vault push' again to sync.")
+                step_ok("New GitHub repo saved. Run 'arc push' again to sync.")
     console.print()
 
 
@@ -243,7 +243,7 @@ def pull(source: str | None) -> None:
     vault, config = _get_vault()
     
     if not source and not config.github_repo:
-        print_command_header("vault pull", "Setup Remote")
+        print_command_header("arc pull", "Setup Remote")
         step_warn("No GitHub repo configured.")
         repo_url = click.prompt("  ?  Enter GitHub repository URL to pull from")
         if repo_url:
@@ -254,8 +254,8 @@ def pull(source: str | None) -> None:
             step_error("GitHub repo URL is required to pull.")
             return
 
-    print_command_header("vault pull", source or config.github_repo or "GitHub")
-    from promptvault.sync import VaultSync
+    print_command_header("arc pull", source or config.github_repo or "GitHub")
+    from prompt_archive.sync import VaultSync
     success = VaultSync(config).pull(source)
     if success:
         step_ok("Pulled and merged.")
@@ -264,7 +264,7 @@ def pull(source: str | None) -> None:
             repo_url = click.prompt("  ?  Enter GitHub repository URL")
             if repo_url:
                 config.set_github_repo(repo_url)
-                step_ok("New GitHub repo saved. Run 'vault pull' again to sync.")
+                step_ok("New GitHub repo saved. Run 'arc pull' again to sync.")
     console.print()
 
 
@@ -276,7 +276,7 @@ def pull(source: str | None) -> None:
 def tag(name: str, tags: tuple) -> None:
     """Add tags to a prompt."""
     vault, _ = _get_vault()
-    print_command_header("vault tag", f"{name}  +  {', '.join(tags)}")
+    print_command_header("arc tag", f"{name}  +  {', '.join(tags)}")
     vault.add_tags(name, list(tags))
     step_ok(f"Tags added to  [bold]{name}[/bold]:", ", ".join(tags))
     console.print()
@@ -290,7 +290,7 @@ def tag(name: str, tags: tuple) -> None:
 def delete(name: str, yes: bool) -> None:
     """Delete a prompt from the vault."""
     vault, _ = _get_vault()
-    print_command_header("vault delete", name)
+    print_command_header("arc delete", name)
     if not yes and not click.confirm(f"  Delete '{name}'? This cannot be undone."):
         step_warn("Cancelled.")
         return
@@ -307,7 +307,7 @@ def delete(name: str, yes: bool) -> None:
 def rename(old_name: str, new_name: str) -> None:
     """Rename a prompt."""
     vault, _ = _get_vault()
-    print_command_header("vault rename", f"{old_name}  →  {new_name}")
+    print_command_header("arc rename", f"{old_name}  →  {new_name}")
     vault.rename(old_name, new_name)
     step_ok(f"Renamed  [bold]{old_name}[/bold]  →  [bold]{new_name}[/bold].")
     console.print()
@@ -321,7 +321,7 @@ def rename(old_name: str, new_name: str) -> None:
 def export_prompts(output: str, fmt: str) -> None:
     """Export all prompts to a file."""
     vault, _ = _get_vault()
-    print_command_header("vault export", f"Format: {fmt}  →  {output}")
+    print_command_header("arc export", f"Format: {fmt}  →  {output}")
     vault.export(output, fmt)
     step_ok(f"Exported to  [bold]{output}[/bold].")
     console.print()
@@ -332,7 +332,7 @@ def export_prompts(output: str, fmt: str) -> None:
 def import_prompts(source: str) -> None:
     """Import prompts from a JSON or markdown file."""
     vault, _ = _get_vault()
-    print_command_header("vault import", source)
+    print_command_header("arc import", source)
     count = vault.import_from(source)
     step_ok(f"Imported  [bright_green]{count}[/bright_green]  prompts.")
     console.print()

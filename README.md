@@ -1,8 +1,8 @@
-# PromptVault CLI
+# Prompt Archive
 
-**PromptVault CLI** is a terminal-based, version-controlled prompt manager designed for AI power users. It allows you to save, version-control, search, and quickly copy prompt templates right from your terminal.
+**Prompt Archive** is a terminal-based, version-controlled prompt manager designed for AI power users. Save, version-control, search, and quickly copy prompt templates right from your terminal.
 
-![PromptVault CLI Demo](https://raw.githubusercontent.com/Venkatesh-6921/PromptVault-cli/main/docs/demo.png) *(Add a screenshot here later)*
+![Prompt Archive Demo](https://raw.githubusercontent.com/Venkatesh-6921/Prompt-Archive/main/docs/demo.png) *(Add a screenshot here later)*
 
 ## Features
 
@@ -16,28 +16,28 @@
 
 ## Installation 
 
-The best way to install PromptVault and guarantee that the `vault` command is available in your terminal is by using [`pipx`](https://pipx.pypa.io/stable/) (which installs Python CLI tools in isolated environments).
+The best way to install Prompt Archive and guarantee that the `arc` command is available in your terminal is by using [`pipx`](https://pipx.pypa.io/stable/).
 
 ### Option 1: Using pipx (Recommended)
 ```bash
 # If you don't have pipx, install it first: pip install pipx
-pipx install promptvault-cli
+pipx install prompt-archive
 ```
 
 ### Option 2: Using pip
 ```bash
-pip install promptvault-cli
+pip install prompt-archive
 ```
-> **Note**: If you use `pip`, the `vault` command might show up as `"command not found"` if your Python `Scripts` directory is not in your system's `PATH`. If that happens, either add the Scripts folder to your PATH, or use `pipx`.
+> **Note**: If you use `pip`, the `arc` command might show up as `"command not found"` if your Python `Scripts` directory is not in your system's `PATH`. If that happens, either add the Scripts folder to your PATH, or use `pipx`.
 
 ---
 
 ## Getting Started
 
-Save your first prompt. This will automatically set up your vault in `~/.promptvault/` and open your default system editor.
+Save your first prompt. This will automatically set up your archive in `~/.promptvault/` and open your default system editor.
 
 ```bash
-vault save "code-reviewer"
+arc save "code-reviewer"
 ```
 
 ### Copying Prompts
@@ -45,27 +45,27 @@ vault save "code-reviewer"
 When you need to use a prompt, just copy it to your clipboard:
 
 ```bash
-vault use "code-reviewer"
+arc use "code-reviewer"
 ```
 
 If you don't remember the exact name, you can search for it:
 
 ```bash
-vault search refactor
+arc search refactor
 ```
 
 ### All Commands
 
 ```bash
-vault save [NAME]       # Save or edit a prompt
-vault use [NAME]        # Copy content to clipboard
-vault list              # Browse all saved prompts
-vault search [QUERY]    # Search by name, tags, or content
-vault log [NAME]        # See the Git version history for a prompt
-vault diff [NAME]       # Compare versions
-vault rollback [NAME]   # Revert a prompt to an older version
-vault push              # Back up your vault to GitHub
-vault pull              # Pull your vault from GitHub
+arc save [NAME]       # Save or edit a prompt
+arc use [NAME]        # Copy content to clipboard
+arc list              # Browse all saved prompts
+arc search [QUERY]    # Search by name, tags, or content
+arc log [NAME]        # See the Git version history for a prompt
+arc diff [NAME]       # Compare versions
+arc rollback [NAME]   # Revert a prompt to an older version
+arc push              # Back up your archive to GitHub
+arc pull              # Pull your archive from GitHub
 ```
 
 ## Storage & Configuration

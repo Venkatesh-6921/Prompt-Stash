@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "promptvault-cli"
+name = "prompt-archive"
 version = "1.0.0"
-description = "Version-controlled prompt manager for AI power users"
+description = "Version-controlled prompt archive for AI power users"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
 authors = [
-    { name = "Hina", email = "your.email@example.com" }
+    { name = "Hina", email = "maragadavekatesh@gmail.com" }
 ]
 keywords = ["ai", "llm", "prompts", "claude", "chatgpt", "gemini", "cli", "developer-tools", "productivity", "version-control"]
 classifiers = [
@@ -38,13 +38,13 @@ dev = [
 ]
 
 [project.scripts]
-vault = "promptvault.cli:main"
-promptvault = "promptvault.cli:main"
+arc = "prompt_archive.cli:main"
+vault = "prompt_archive.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/Venkatesh-6921/PromptVault-cli"
-Repository = "https://github.com/Venkatesh-6921/PromptVault-cli"
-"Bug Tracker" = "https://github.com/Venkatesh-6921/PromptVault-cli/issues"
+Homepage = "https://github.com/Venkatesh-6921/Prompt-Archive"
+Repository = "https://github.com/Venkatesh-6921/Prompt-Archive"
+"Bug Tracker" = "https://github.com/Venkatesh-6921/Prompt-Archive/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["promptvault"]
+packages = ["prompt_archive"]

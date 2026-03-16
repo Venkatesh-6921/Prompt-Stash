@@ -6,14 +6,14 @@ from pathlib import Path
 import pytest
 from git import Repo
 
-from promptvault.config import VaultConfig
-from promptvault.versioning import PromptVersioning
+from prompt_archive.config import VaultConfig
+from prompt_archive.versioning import PromptVersioning
 
 
 @pytest.fixture
 def versioning_env(tmp_path: Path):
     """Set up a temp vault with Git and some commits."""
-    vault_dir = tmp_path / ".promptvault"
+    vault_dir = tmp_path / ".prompt_archive"
     prompts_dir = vault_dir / "prompts"
     prompts_dir.mkdir(parents=True)
     repo = Repo.init(prompts_dir)

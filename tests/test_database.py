@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from promptvault.database import PromptRecord, VaultDatabase
+from prompt_archive.database import PromptRecord, VaultDatabase
 
 
 @pytest.fixture

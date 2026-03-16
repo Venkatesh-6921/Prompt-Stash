@@ -1,5 +1,5 @@
 """
-PromptVault v2 — Rich display helpers.
+Prompt Archive — Rich display helpers.
 Gemini CLI-inspired terminal UI: ASCII logo, tips panel, styled output.
 """
 from __future__ import annotations
@@ -21,16 +21,27 @@ VAULT_THEME = Theme({
 })
 console = Console(theme=VAULT_THEME)
 
-# ── ASCII Logo (VAULT) ────────────────────────────────────────────────────────
+# ── ASCII Logo (PROMPT ARCHIVE) ───────────────────────────────────────────────
 _LOGO = [
-    "  ██╗   ██╗ █████╗ ██╗   ██╗██╗  ████████╗",
-    "  ██║   ██║██╔══██╗██║   ██║██║  ╚══██╔══╝",
-    "  ██║   ██║███████║██║   ██║██║     ██║   ",
-    "  ╚██╗ ██╔╝██╔══██║██║   ██║██║     ██║   ",
-    "   ╚████╔╝ ██║  ██║╚██████╔╝███████╗██║   ",
-    "    ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝   ",
+    "  ██████╗ ██████╗  ██████╗ ███╗   ███╗██████╗ ████████╗",
+    "  ██╔══██╗██╔══██╗██╔═══██╗████╗ ████║██╔══██╗╚══██╔══╝",
+    "  ██████╔╝██████╔╝██║   ██║██╔████╔██║██████╔╝   ██║   ",
+    "  ██╔═══╝ ██╔══██╗██║   ██║██║╚██╔╝██║██╔═══╝    ██║   ",
+    "  ██║     ██║  ██║╚██████╔╝██║ ╚═╝ ██║██║        ██║   ",
+    "  ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝        ╚═╝   ",
+    "",
+    "   █████╗ ██████╗  ██████╗██╗  ██╗██╗██╗   ██╗███████╗",
+    "  ██╔══██╗██╔══██╗██╔════╝██║  ██║██║██║   ██║██╔════╝",
+    "  ███████║██████╔╝██║     ███████║██║██║   ██║█████╗  ",
+    "  ██╔══██║██╔══██╗██║     ██╔══██║██║╚██╗ ██╔╝██╔══╝  ",
+    "  ██║  ██║██║  ██║╚██████╗██║  ██║██║ ╚████╔╝ ███████╗",
+    "  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝",
 ]
-_LOGO_COLORS = ["magenta","magenta","bright_magenta","bright_magenta","magenta","magenta"]
+_LOGO_COLORS = [
+    "magenta","magenta","bright_magenta","bright_magenta","magenta","magenta",
+    "bright_black",
+    "magenta","magenta","bright_magenta","bright_magenta","magenta","magenta","magenta",
+]
 
 def print_logo() -> None:
     console.print()
@@ -42,13 +53,13 @@ def print_tips() -> None:
     tips = Text()
     tips.append("Tips for getting started:\n", style="bold magenta")
     items = [
-        ("vault save \"name\"",        "Save a new prompt — opens your editor."),
-        ("vault use \"django-debug\"",   "Copy a prompt to clipboard, ready to paste."),
-        ("vault search refactor cli",   "Search prompts by name, tag, or code."),
-        ("vault list",                 "Browse all saved prompts in a table."),
-        ("vault log \"django-debug\"",   "See version history for a prompt."),
-        ("vault push",                 "Back up your vault to GitHub."),
-        ("vault --help",               "Full list of commands and options."),
+        ("arc save \"name\"",           "Save a new prompt — opens your editor."),
+        ("arc use \"django-debug\"",    "Copy a prompt to clipboard, ready to paste."),
+        ("arc search refactor cli",    "Search prompts by name, tag, or code."),
+        ("arc list",                   "Browse all saved prompts in a table."),
+        ("arc log \"django-debug\"",    "See version history for a prompt."),
+        ("arc push",                   "Back up your archive to GitHub."),
+        ("arc --help",                 "Full list of commands and options."),
     ]
     for i, (cmd, desc) in enumerate(items, 1):
         tips.append(f"  {i}. ", style="dim")
@@ -62,13 +73,13 @@ def print_status_bar(version: str = "2.0.0") -> None:
     except Exception:
         hostname = "localhost"
     bar = Text()
-    bar.append("  ~/.promptvault", style="dim")
+    bar.append("  ~/.prompt_archive", style="dim")
     bar.append("  |  ", style="bright_black")
     bar.append(hostname, style="dim")
     bar.append("  |  ", style="bright_black")
     bar.append(platform.system(), style="dim")
     bar.append("  |  ", style="bright_black")
-    bar.append(f"promptvault v{version}", style="magenta")
+    bar.append(f"prompt-archive v{version}", style="magenta")
     bar.append(f"  |  {datetime.now().strftime('%H:%M')}", style="dim")
     console.print(bar)
     console.print()
