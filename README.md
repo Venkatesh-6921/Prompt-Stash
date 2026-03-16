@@ -2,7 +2,7 @@
 
 **Prompt Stash** is a terminal-based, version-controlled prompt manager designed for AI power users. Save, version-control, search, and quickly copy prompt templates right from your terminal.
 
-![Prompt Stash Demo](https://raw.githubusercontent.com/Venkatesh-6921/Prompt-Stash/main/docs/demo.png) *(Add a screenshot here later)*
+![Prompt Stash Demo](https://raw.githubusercontent.com/Venkatesh-6921/Prompt-Stash/demo.png) *(Add a screenshot here later)*
 
 ## Features
 
