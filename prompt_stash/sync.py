@@ -64,7 +64,10 @@ class VaultSync:
                 return False
             self._ensure_remote(url)
             origin = self.repo.remote("origin")
-            origin.pull(rebase=True)
+            
+            # Use explicit branch 'main' and allow unrelated histories
+            # This is often needed for the first pull if the remote has a README/License
+            origin.pull(refspec="main", rebase=True, allow_unrelated_histories=True)
             return True
         except Exception as e:
             console.print(f"  [red]✗[/red]  Pull failed: {e}")
