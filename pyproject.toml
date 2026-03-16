@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "prompt-stash"
-version = "1.0.0"
+version = "1.0.1"
 description = "Version-controlled prompt stash for AI power users"
 readme = "README.md"
 license = { text = "MIT" }
