@@ -1,0 +1,30 @@
+# Python metadata and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual Environments
+venv/
+env/
+.venv/
+.env
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDEs & OS
+.vscode/
+.idea/
+.DS_Store
+
+# Project specific exclusions requested by user
+docs/plans/
+PromptVault_Workflow.md
+stale/
+build.log
