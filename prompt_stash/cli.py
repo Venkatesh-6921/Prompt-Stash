@@ -294,8 +294,10 @@ def delete(name: str, yes: bool) -> None:
     if not yes and not click.confirm(f"  Delete '{name}'? This cannot be undone."):
         step_warn("Cancelled.")
         return
-    vault.delete(name)
-    step_ok(f"Deleted  [bold]{name}[/bold].")
+    if vault.delete(name):
+        step_ok(f"Deleted  [bold]{name}[/bold].")
+    else:
+        step_warn(f"Prompt '{name}' not found.", "Run  stash list  to see all prompts.")
     console.print()
 
 

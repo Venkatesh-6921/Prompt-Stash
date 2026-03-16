@@ -160,9 +160,10 @@ class VaultDatabase:
         return dict(row) if row else None
 
     # ── delete ────────────────────────────────────────────────────
-    def delete(self, name: str) -> None:
-        self.conn.execute("DELETE FROM prompts WHERE name = ?", (name,))
+    def delete(self, name: str) -> bool:
+        cursor = self.conn.execute("DELETE FROM prompts WHERE name = ?", (name,))
         self.conn.commit()
+        return cursor.rowcount > 0
 
     # ── all ────────────────────────────────────────────────────────
     def all(self, tag: str | None = None, model: str | None = None) -> list[dict]:

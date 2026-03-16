@@ -132,10 +132,13 @@ class PromptVault:
         return [self._enrich(r) for r in results]
 
     # ── delete ────────────────────────────────────────────────────
-    def delete(self, name: str) -> None:
-        self.storage.delete(name)
-        self.db.delete(name)
-        self.storage.commit(name, "delete")
+    def delete(self, name: str) -> bool:
+        """Delete a prompt. Returns True if deleted, False if not found."""
+        existed = self.db.delete(name)
+        if existed:
+            self.storage.delete(name)
+            self.storage.commit(name, "delete")
+        return existed
 
     # ── rename ────────────────────────────────────────────────────
     def rename(self, old_name: str, new_name: str) -> None:
